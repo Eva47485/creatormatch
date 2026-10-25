@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreatorMatch MVP</title>
+<style>
+:root{--bg:#f7f3ee;--card:#fff;--ink:#1b1530;--mut:#6b6580;--a:#7c5cff;--b:#ff5c8a;--line:#e6e0ea;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1530;--card:#2a2245;--ink:#f7f3ee;--mut:#b4acc9;--line:#3b3260}}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 Arial,sans-serif}
+#app{max-width:560px;margin:0 auto;padding:16px 16px 90px}
+h1{font-size:26px;margin:8px 0 4px}h2{font-size:20px;margin:12px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}
+.mut{color:var(--mut);font-size:14px}.tag{display:inline-block;background:var(--a);color:#fff;border-radius:10px;padding:2px 9px;font-size:13px;margin:2px 4px 2px 0}.tag.b{background:var(--b)}
+input,select,textarea{width:100%;padding:11px;margin:5px 0 10px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
+button{background:var(--a);color:#fff;border:0;border-radius:12px;padding:11px 16px;font:inherit;font-weight:700;cursor:pointer}
+button.g{background:transparent;color:var(--a);border:1px solid var(--a)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;color:var(--mut);border-radius:0;padding:14px 4px;font-size:14px}nav button.on{color:var(--a)}
+.m{max-width:80%;padding:9px 12px;border-radius:14px;margin:6px 0;background:var(--card);border:1px solid var(--line)}.m.me{margin-left:auto;background:var(--a);color:#fff;border:0}
+ul{padding-left:20px;margin:6px 0}
+</style></head><body><div id="app"></div><nav id="nav"></nav>
+<script>
+const NICHES=['Макияж','Одежда','Украшения','Лайфстайл','Еда'],TYPES=['Бартер','Оплата','Бартер + оплата'];
+const seed=[
+{id:1,brand:'Nail Demo (студия маникюра)',city:'Москва',type:'Оплата',niche:'Макияж',offline:true,text:'Нужен ролик 20-30 сек в студии: процесс маникюра и результат.'},
+{id:2,brand:'Бижутерия Demo',city:'Иваново',type:'Бартер',niche:'Украшения',offline:false,text:'Ролик с украшениями: переход или GRWM, отправим набор бесплатно.'},
+{id:3,brand:'Одежда Demo',city:'Любой',type:'Бартер + оплата',niche:'Одежда',offline:false,text:'Лукбук из 3 образов в формате переходов.'}];
+let S;try{S=JSON.parse(localStorage.getItem('cm'))}catch(e){}
+S=S||{role:null,me:{},tasks:seed,chats:{},tab:'feed',f:{city:'',type:''},open:null,ai:null};
+const save=()=>{try{localStorage.setItem('cm',JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const opt=(a,v)=>a.map(x=>`<option${x===v?' selected':''}>${x}</option>`).join('');
+const go=t=>{S.tab=t;S.open=null;save();render()};
+const val=id=>($('#'+id)||{}).value||'';
+function render(){
+ const A=$('#app'),N=$('#nav');
+ if(!S.role){N.innerHTML='';A.innerHTML=`<h1>CreatorMatch</h1><p class="mut">Бренды находят UGC-креаторов, креаторы находят первые коллабы.</p><div class="card"><b>Кто вы?</b><div class="row" style="margin-top:10px"><button onclick="pick('blogger')">Я блогер</button><button class="g" onclick="pick('brand')">Я бренд</button></div></div>`;return}
+ const bl=S.role==='blogger',tabs=bl?[['feed','Лента'],['chats','Чаты'],['ai','ИИ'],['me','Профиль']]:[['feed','Задания'],['chats','Чаты'],['me','Профиль']];
+ N.innerHTML=tabs.map(([k,n])=>`<button class="${S.tab===k?'on':''}" onclick="go('${k}')">${n}</button>`).join('');
+ if(S.open)return chat(A);
+ ({feed:bl?feed:brandFeed,chats:chats,ai:ai,me:me}[S.tab]||feed)(A);
+}
+function pick(r){S.role=r;S.tab='me';save();render()}
+function me(A){const bl=S.role==='blogger',m=S.me;
+ A.innerHTML=`<h1>${bl?'Анкета блогера':'Профиль бренда'}</h1>
+ <div class="card"><label>${bl?'Имя':'Название бренда'}</label><input id="n" value="${esc(m.n)}">
+ ${bl?`<div class="row"><div><label>Возраст</label><input id="a" type="number" value="${esc(m.a)}"></div><div><label>Город</label><input id="c" value="${esc(m.c)}"></div></div><label>Ниша</label><select id="ni">${opt(NICHES,m.ni)}</select><label>Формат</label><select id="t">${opt(TYPES,m.t)}</select><label>Портфолио (ссылки на ролики, по одной в строке)</label><textarea id="p" rows="3">${esc(m.p)}</textarea>`
+ :`<label>Город</label><input id="c" value="${esc(m.c)}"><label>О бренде</label><textarea id="ab" rows="3">${esc(m.ab)}</textarea><label>Варианты сотрудничества</label><select id="t">${opt(TYPES,m.t)}</select>`}
+ <button onclick="saveMe()">Сохранить</button></div>
+ <div class="card"><div class="mut">Демо: переключите роль, чтобы увидеть обе стороны.</div><button class="g" style="margin-top:8px" onclick="S.role=null;save();render()">Сменить роль</button></div>`}
+function saveMe(){S.me={n:val('n'),a:val('a'),c:val('c'),ni:val('ni'),t:val('t'),p:val('p'),ab:val('ab')};save();S.tab='feed';render()}
+function card(t,btn){return `<div class="card"><b>${esc(t.brand)}</b><div><span class="tag">${esc(t.type)}</span><span class="tag b">${esc(t.niche)}</span><span class="tag">${esc(t.city)}${t.offline?' · офлайн':''}</span></div><p>${esc(t.text)}</p>${btn}</div>`}
+function feed(A){const f=S.f;const L=S.tasks.filter(t=>(!f.city||t.city.toLowerCase().includes(f.city.toLowerCase())||t.city==='Любой')&&(!f.type||t.type===f.type));
+ A.innerHTML=`<h1>Задания</h1><div class="row"><input id="fc" placeholder="Город" value="${esc(f.city)}" oninput="S.f.city=this.value;feed2()"><select id="ft" onchange="S.f.type=this.value;feed2()"><option value="">Любой тип</option>${opt(TYPES,f.type)}</select></div><div id="l">${L.map(t=>card(t,`<button onclick="apply(${t.id})">Откликнуться</button>`)).join('')||'<p class="mut">Ничего не найдено</p>'}</div>`}
+function feed2(){const c=$('#fc').selectionStart;feed($('#app'));const i=$('#fc');i.focus();i.setSelectionRange(c,c)}
+function brandFeed(A){const mine=S.tasks.filter(t=>t.mine);
+ A.innerHTML=`<h1>Мои задания</h1><div class="card"><b>Новое задание</b><label>Что снять</label><textarea id="x" rows="3"></textarea><div class="row"><div><label>Ниша</label><select id="ni">${opt(NICHES)}</select></div><div><label>Тип</label><select id="t">${opt(TYPES)}</select></div></div><label><input type="checkbox" id="of" style="width:auto"> Нужна офлайн-съёмка (студия, магазин)</label><button onclick="post()">Опубликовать</button></div>${mine.map(t=>card(t,`<button class="g" onclick="openChat(${t.id})">Чат</button>`)).join('')}`}
+function post(){const x=val('x').trim();if(!x)return;S.tasks.unshift({id:Date.now(),mine:true,brand:S.me.n||'Мой бренд',city:S.me.c||'Любой',type:val('t'),niche:val('ni'),offline:$('#of').checked,text:x});save();render()}
+function apply(id){const k=S.chats[id]=S.chats[id]||[];if(!k.length)k.push({me:1,t:`Здравствуйте! Меня зовут ${S.me.n||'блогер'}, хочу снять ролик. Портфолио в анкете.`},{me:0,t:'Спасибо за отклик! Давайте обсудим детали (демо-ответ).'});save();openChat(id)}
+function openChat(id){S.open=id;save();render()}
+function chat(A){const id=S.open,t=S.tasks.find(x=>x.id===id)||{},k=S.chats[id]=S.chats[id]||[];
+ A.innerHTML=`<button class="g" onclick="S.open=null;render()">← Назад</button><h2>${esc(t.brand)}</h2>${k.map(m=>`<div class="m ${m.me?'me':''}">${esc(m.t)}</div>`).join('')||'<p class="mut">Сообщений пока нет</p>'}<div class="row" style="margin-top:12px"><input id="msg" placeholder="Сообщение"><button style="flex:0" onclick="send(${id})">→</button></div>`}
+function send(id){const t=val('msg').trim();if(!t)return;S.chats[id].push({me:1,t});save();render()}
+function chats(A){const ids=Object.keys(S.chats).filter(i=>S.chats[i].length);
+ A.innerHTML=`<h1>Чаты</h1>${ids.map(i=>{const t=S.tasks.find(x=>x.id==i)||{};return `<div class="card" onclick="openChat(${i})"><b>${esc(t.brand)}</b><div class="mut">${esc(S.chats[i].slice(-1)[0].t)}</div></div>`}).join('')||'<p class="mut">Чатов пока нет. Откликнитесь на задание.</p>'}`}
+function ai(A){const a=S.ai;
+ A.innerHTML=`<h1>ИИ-помощник</h1><div class="card"><label>Бренд или продукт</label><select id="b" onchange="document.getElementById('pr').value=this.value">${S.tasks.map(t=>`<option>${esc(t.brand)}</option>`).join('')}</select><label>Формат ролика</label><select id="fm">${opt(['Переход','GRWM','Распаковка','Честный отзыв'])}</select><button onclick="gen()">Придумать идеи</button></div>${a?`<div class="card"><b>Идеи</b><ul>${a.i.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><b>Хуки для первых секунд</b><ul>${a.h.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><b>Сценарий</b><ul>${a.s.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<p class="mut">Демо-режим: идеи собираются из шаблонов. В полной версии сюда подключается языковая модель и подборка трендов.</p>`}
+function gen(){const b=val('b'),f=val('fm');
+ S.ai={i:[`${f} с «${b}» в стиле «до и после»`,`Один продукт, три образа или сценария за 15 секунд`,`Реакция на продукт в формате «я не ожидала»`],
+ h:[`Я проверила ${b}, и вот что вышло`,`Не покупай, пока не посмотришь это видео`,`3 способа использовать это за 15 секунд`],
+ s:['0-3 с: хук крупным планом и текст на экране','3-12 с: основная часть в формате «'+f+'»','12-15 с: результат и призыв сохранить ролик']};save();render()}
+render();
+</script></body></html>
