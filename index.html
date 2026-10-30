@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CreatorMatch: бренды и UGC-креаторы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fbf6f3;--card:#fff;--ink:#4a3f55;--mut:#8a7f96;--p1:#ffd9d0;--p2:#e4dcf7;--p3:#d7efe6;--acc:#cdb8f0;--rose:#f4b8c8;--line:#efe6e8;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 Nunito,Arial,sans-serif}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;line-height:1.15;margin:0 0 12px}
+h1{font-size:clamp(34px,8vw,60px)}h2{font-size:clamp(26px,5vw,38px);text-align:center;margin-bottom:28px}h3{font-size:21px}
+.w{max-width:980px;margin:0 auto;padding:0 20px}section{padding:56px 0}
+header{position:sticky;top:0;z-index:5;background:rgba(251,246,243,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header .w{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:22px}
+header a{color:var(--ink);text-decoration:none;font-weight:600;margin-left:16px;font-size:15px}
+.hero{text-align:center;padding:72px 0 56px;background:linear-gradient(160deg,var(--p1),var(--p2) 55%,var(--p3))}
+.hero p{max-width:560px;margin:0 auto 24px;font-size:19px}
+.btn{display:inline-block;background:var(--acc);color:var(--ink);border:0;border-radius:999px;padding:13px 24px;font:700 16px Nunito,Arial,sans-serif;cursor:pointer;text-decoration:none;margin:4px}
+.btn.r{background:var(--rose)}.btn.o{background:transparent;border:2px solid var(--acc)}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.c{background:var(--card);border-radius:24px;padding:24px;box-shadow:0 6px 24px rgba(120,100,140,.08)}
+.c.p1{background:var(--p1)}.c.p2{background:var(--p2)}.c.p3{background:var(--p3)}
+.n{display:inline-flex;width:38px;height:38px;border-radius:50%;background:var(--p2);align-items:center;justify-content:center;font-weight:700;margin-bottom:10px}
+.pill{display:inline-block;background:var(--card);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:700;margin-bottom:12px}
+ul{padding-left:20px;margin:8px 0}li{margin:5px 0}
+.price{font-size:26px;font-weight:700;color:var(--mut)}
+details{background:var(--card);border-radius:18px;padding:16px 20px;margin:10px 0}summary{font-weight:700;cursor:pointer}
+#try{background:var(--p2)}
+#ph{max-width:480px;margin:0 auto;background:var(--bg);border-radius:32px;padding:20px;box-shadow:0 10px 40px rgba(120,100,140,.18);min-height:480px}
+#nv{display:flex;max-width:480px;margin:12px auto 0;gap:8px}#nv button{flex:1;padding:10px 4px;font-size:14px}
+#ph .card{background:var(--card);border-radius:18px;padding:14px;margin:10px 0}
+#ph h1{font-size:24px}#ph h2{font-size:20px;text-align:left}
+.mut{color:var(--mut);font-size:14px}
+.tag{display:inline-block;background:var(--p2);border-radius:10px;padding:2px 9px;font-size:13px;margin:2px 4px 2px 0}.tag.b{background:var(--p1)}
+input,select,textarea{width:100%;padding:11px;margin:5px 0 10px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.m{max-width:80%;padding:9px 13px;border-radius:16px;margin:6px 0;background:#fff}.m.me{margin-left:auto;background:var(--acc)}
+.chip{display:inline-flex;align-items:center;background:var(--p2);border-radius:999px;padding:6px 14px;margin:4px 6px 4px 0;cursor:pointer;font-size:15px}.chip input{width:auto;margin:0 6px 0 0}
+.er{color:#b4506b;font-size:14px;min-height:20px}
+footer{text-align:center;padding:36px 20px 90px;color:var(--mut);font-size:14px}
+#sb{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9}
+#sp{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:9;width:min(340px,calc(100vw - 32px));background:var(--card);border-radius:22px;padding:18px;box-shadow:0 10px 40px rgba(120,100,140,.25);display:none}
+#gate{position:fixed;inset:0;z-index:20;background:var(--p2);display:none;align-items:center;justify-content:center;padding:20px}
+#gate .c{max-width:420px;text-align:center}
+body.no main,body.no header{display:none}
+</style></head><body>
+<div id="gate"><div class="c"><h2 style="margin-bottom:12px">Вам есть 18 лет?</h2><p id="gm">Сервис доступен только совершеннолетним пользователям.</p><button class="btn" onclick="adult(1)">Да, мне 18+</button><button class="btn o" onclick="adult(0)">Нет</button></div></div>
+<header><div class="w"><span class="logo">CreatorMatch</span><nav><a href="#how">Как это работает</a><a href="#price">Тарифы</a><a href="#try">Попробовать</a></nav></div></header>
+<main>
+<div class="hero"><div class="w"><span class="pill">18+</span><h1>Бренды и креаторы находят друг друга</h1><p>Площадка для UGC: начинающие блогеры получают первые коллабы, а бренды живые ролики без агентств.</p><button class="btn" onclick="start('blogger')">Я блогер</button><button class="btn r" onclick="start('brand')">Я бренд</button></div></div>
+<section id="how"><div class="w"><h2>Как это работает</h2><div class="g3">
+<div class="c"><div class="n">1</div><h3>Регистрация</h3><p>Выберите роль: блогер или бренд, и заполните анкету.</p></div>
+<div class="c"><div class="n">2</div><h3>Задание и отклик</h3><p>Бренд публикует задание, блогер откликается и показывает портфолио.</p></div>
+<div class="c"><div class="n">3</div><h3>Чат и ролик</h3><p>Стороны договариваются в чате, блогер снимает, бренд принимает работу.</p></div></div></div></section>
+<section style="padding-top:0"><div class="w"><div class="g3">
+<div class="c p1"><h3>Для блогеров</h3><ul><li>Анкета и портфолио</li><li>Задания по городу и нише</li><li>Бартер и оплата</li><li>ИИ-помощник с идеями и хуками</li></ul></div>
+<div class="c p3"><h3>Для брендов</h3><ul><li>Профиль о бренде</li><li>Свои варианты сотрудничества</li><li>Офлайн-съёмки в студии или магазине</li><li>Прямой чат с креатором</li></ul></div></div></div></section>
+<section id="ai" style="padding-top:0"><div class="w"><div class="c p2" style="text-align:center"><h3>ИИ-помощник для креаторов</h3><p>Выбираете бренд и формат, а помощник предлагает идеи роликов, хуки для первых секунд и короткий сценарий.</p></div></div></section>
+<section id="price"><div class="w"><h2>Тарифы</h2><div class="g3">
+<div class="c"><h3>Бренд: Старт</h3><p>Профиль и несколько заданий в месяц</p><div class="price">скоро</div></div>
+<div class="c"><h3>Бренд: Стандарт</h3><p>Больше заданий и выделение в ленте</p><div class="price">скоро</div></div>
+<div class="c"><h3>Бренд: Про</h3><p>Безлимит и топ-позиция</p><div class="price">скоро</div></div>
+<div class="c p1"><h3>Креатор: ИИ Премиум</h3><p>Безлимит запросов, сценарии, тренды</p><div class="price">скоро</div></div></div>
+<p class="mut" style="text-align:center;margin-top:18px">Подписки на 6 и 12 месяцев будут выгоднее ежемесячной.</p></div></section>
+<section><div class="w" style="max-width:700px"><h2>Вопросы</h2>
+<details><summary>Кто может пользоваться?</summary><p>Только пользователи старше 18 лет.</p></details>
+<details><summary>Как проходит оплата?</summary><p>Подписка оплачивается онлайн. Условия оплаты ролика бренд и креатор согласуют в чате.</p></details>
+<details><summary>Это настоящий ИИ?</summary><p>В демо идеи собираются из шаблонов. Полная версия подключит языковую модель.</p></details></div></section>
+<section id="try"><div class="w"><h2>Попробовать прототип</h2><div id="ph"></div><div id="nv"></div></div></section>
+</main>
+<footer>© CreatorMatch · 18+ · демо-версия</footer>
+<button class="btn r" id="sb" onclick="tsup()">Поддержка</button>
+<div id="sp"><h3>Написать в поддержку</h3><textarea id="sm" rows="4" placeholder="Опишите вопрос"></textarea><button class="btn" onclick="mail()">На почту</button><button class="btn o" onclick="tg()">В Telegram</button><p class="mut">Сообщение откроется в вашем приложении, а отправите его вы.</p></div>
+<script>
+const CONTACT={email:'ВАШ_EMAIL@example.com',tg:'ВАШ_НИК_В_TELEGRAM'};
+const NICHES=['Макияж','Одежда','Украшения','Лайфстайл','Еда'],TYPES=['Бартер','Оплата','Бартер + оплата'];
+const seed=[
+{id:1,brand:'Nail Demo (студия маникюра)',city:'Москва',type:'Оплата',niche:'Макияж',offline:true,text:'Нужен ролик 20-30 сек в студии: процесс маникюра и результат.'},
+{id:2,brand:'Бижутерия Demo',city:'Иваново',type:'Бартер',niche:'Украшения',offline:false,text:'Ролик с украшениями: переход или GRWM, отправим набор бесплатно.'},
+{id:3,brand:'Одежда Demo',city:'Любой',type:'Бартер + оплата',niche:'Одежда',offline:false,text:'Лукбук из 3 образов в формате переходов.'}];
+let S;try{S=JSON.parse(localStorage.getItem('cm2'))}catch(e){}
+S=S||{adult:false,role:null,me:{},tasks:seed,chats:{},tab:'feed',f:{city:'',type:''},open:null,ai:null};
+const save=()=>{try{localStorage.setItem('cm2',JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const opt=(a,v)=>a.map(x=>`<option${x===v?' selected':''}>${x}</option>`).join('');
+const val=id=>($('#'+id)||{}).value||'';
+function adult(y){if(y){S.adult=true;save();gate()}else{$('#gm').textContent='К сожалению, сервис доступен только с 18 лет.';document.body.classList.add('no');$('#gate').style.display='flex'}}
+function gate(){document.body.classList.remove('no');$('#gate').style.display=S.adult?'none':'flex'}
+function start(r){S.role=r;S.tab='me';save();render();$('#try').scrollIntoView()}
+function tsup(){const p=$('#sp');p.style.display=p.style.display==='block'?'none':'block'}
+function mail(){location.href='mailto:'+CONTACT.email+'?subject='+encodeURIComponent('CreatorMatch: поддержка')+'&body='+encodeURIComponent(val('sm'))}
+function tg(){try{navigator.clipboard.writeText(val('sm'))}catch(e){}window.open('https://t.me/'+CONTACT.tg,'_blank')}
+const go=t=>{S.tab=t;S.open=null;save();render()};
+function render(){
+ const A=$('#ph'),N=$('#nv');
+ if(!S.role){N.innerHTML='';A.innerHTML=`<h1>Кто вы?</h1><p class="mut">Выберите роль, чтобы начать.</p><div class="row"><button class="btn" onclick="start('blogger')">Я блогер</button><button class="btn r" onclick="start('brand')">Я бренд</button></div>`;return}
+ const bl=S.role==='blogger',tabs=bl?[['feed','Лента'],['chats','Чаты'],['ai','ИИ'],['me','Профиль']]:[['feed','Задания'],['chats','Чаты'],['me','Профиль']];
+ N.innerHTML=tabs.map(([k,n])=>`<button class="btn ${S.tab===k?'':'o'}" onclick="go('${k}')">${n}</button>`).join('');
+ if(S.open)return chat(A);
+ ({feed:bl?feed:brandFeed,chats:chats,ai:ai,me:me}[S.tab]||feed)(A);
+}
+function me(A){const bl=S.role==='blogger',m=S.me;
+ A.innerHTML=`<h1>${bl?'Анкета блогера':'Профиль бренда'}</h1>
+ <div class="card"><label>${bl?'Имя':'Название бренда'}</label><input id="n" value="${esc(m.n)}">
+ ${bl?`<div class="row"><div><label>Возраст (18+)</label><input id="a" type="number" min="18" value="${esc(m.a)}"></div><div><label>Город</label><input id="c" value="${esc(m.c)}"></div></div><label>Ниши (можно выбрать несколько)</label><div id="nis">${NICHES.map(x=>`<label class="chip"><input type="checkbox" value="${x}"${[].concat(m.ni||[]).includes(x)?' checked':''}>${x}</label>`).join('')}</div><label>Формат</label><select id="t">${opt(TYPES,m.t)}</select><label>Портфолио (ссылки на ролики, по одной в строке)</label><textarea id="p" rows="3">${esc(m.p)}</textarea>`
+ :`<label>Город</label><input id="c" value="${esc(m.c)}"><label>О бренде</label><textarea id="ab" rows="3">${esc(m.ab)}</textarea><label>Варианты сотрудничества</label><select id="t">${opt(TYPES,m.t)}</select>`}
+ <div class="er" id="er"></div><button class="btn" onclick="saveMe()">Сохранить</button></div>
+ <button class="btn o" onclick="S.role=null;save();render()">Сменить роль</button>`}
+function saveMe(){const bl=S.role==='blogger';if(bl&&(+val('a')<18)){$('#er').textContent='Платформа доступна только с 18 лет. Укажите возраст 18 или больше.';return}
+ const ni=[...document.querySelectorAll('#nis input:checked')].map(i=>i.value);if(bl&&!ni.length){$('#er').textContent='Выберите хотя бы одну нишу.';return}
+ S.me={n:val('n'),a:val('a'),c:val('c'),ni:ni,t:val('t'),p:val('p'),ab:val('ab')};S.tab='feed';save();render()}
+function card(t,btn){return `<div class="card"><b>${esc(t.brand)}</b><div><span class="tag">${esc(t.type)}</span><span class="tag b">${esc(t.niche)}</span><span class="tag">${esc(t.city)}${t.offline?' · офлайн':''}</span></div><p>${esc(t.text)}</p>${btn}</div>`}
+function feed(A){const f=S.f;const L=S.tasks.filter(t=>(!f.city||t.city.toLowerCase().includes(f.city.toLowerCase())||t.city==='Любой')&&(!f.type||t.type===f.type));
+ A.innerHTML=`<h1>Задания</h1><div class="row"><input id="fc" placeholder="Город" value="${esc(f.city)}" oninput="S.f.city=this.value;feed2()"><select onchange="S.f.type=this.value;feed2()"><option value="">Любой тип</option>${opt(TYPES,f.type)}</select></div>${L.map(t=>card(t,`<button class="btn" onclick="apply(${t.id})">Откликнуться</button>`)).join('')||'<p class="mut">Ничего не найдено</p>'}`}
+function feed2(){const c=$('#fc').selectionStart;feed($('#ph'));const i=$('#fc');i.focus();i.setSelectionRange(c,c)}
+function brandFeed(A){const mine=S.tasks.filter(t=>t.mine);
+ A.innerHTML=`<h1>Мои задания</h1><div class="card"><b>Новое задание</b><label>Что снять</label><textarea id="x" rows="3"></textarea><div class="row"><div><label>Ниша</label><select id="ni">${opt(NICHES)}</select></div><div><label>Тип</label><select id="t">${opt(TYPES)}</select></div></div><label><input type="checkbox" id="of" style="width:auto"> Нужна офлайн-съёмка</label><button class="btn" onclick="post()">Опубликовать</button></div>${mine.map(t=>card(t,`<button class="btn o" onclick="openChat(${t.id})">Чат</button>`)).join('')}`}
+function post(){const x=val('x').trim();if(!x)return;S.tasks.unshift({id:Date.now(),mine:true,brand:S.me.n||'Мой бренд',city:S.me.c||'Любой',type:val('t'),niche:val('ni'),offline:$('#of').checked,text:x});save();render()}
+function apply(id){const k=S.chats[id]=S.chats[id]||[];if(!k.length)k.push({me:1,t:`Здравствуйте! Меня зовут ${S.me.n||'блогер'}, хочу снять ролик. Портфолио в анкете.`},{me:0,t:'Спасибо за отклик! Давайте обсудим детали (демо-ответ).'});save();openChat(id)}
+function openChat(id){S.open=id;save();render()}
+function chat(A){const id=S.open,t=S.tasks.find(x=>x.id===id)||{},k=S.chats[id]=S.chats[id]||[];
+ A.innerHTML=`<button class="btn o" onclick="S.open=null;render()">← Назад</button><h2>${esc(t.brand)}</h2>${k.map(m=>`<div class="m ${m.me?'me':''}">${esc(m.t)}</div>`).join('')||'<p class="mut">Сообщений пока нет</p>'}<div class="row" style="margin-top:12px"><input id="msg" placeholder="Сообщение"><button class="btn" style="flex:0" onclick="send(${id})">→</button></div>`}
+function send(id){const t=val('msg').trim();if(!t)return;S.chats[id].push({me:1,t});save();render()}
+function chats(A){const ids=Object.keys(S.chats).filter(i=>S.chats[i].length);
+ A.innerHTML=`<h1>Чаты</h1>${ids.map(i=>{const t=S.tasks.find(x=>x.id==i)||{};return `<div class="card" onclick="openChat(${i})"><b>${esc(t.brand)}</b><div class="mut">${esc(S.chats[i].slice(-1)[0].t)}</div></div>`}).join('')||'<p class="mut">Чатов пока нет. Откликнитесь на задание.</p>'}`}
+function ai(A){const a=S.ai;
+ A.innerHTML=`<h1>ИИ-помощник</h1><div class="card"><label>Бренд или продукт</label><select id="b">${S.tasks.map(t=>`<option>${esc(t.brand)}</option>`).join('')}</select><label>Формат ролика</label><select id="fm">${opt(['Переход','GRWM','Распаковка','Честный отзыв'])}</select><button class="btn" onclick="gen()">Придумать идеи</button></div>${a?`<div class="card"><b>Идеи</b><ul>${a.i.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><b>Хуки</b><ul>${a.h.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><b>Сценарий</b><ul>${a.s.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}<p class="mut">Демо-режим: идеи собираются из шаблонов.</p>`}
+function gen(){const b=val('b'),f=val('fm');
+ S.ai={i:[`${f} с «${b}» в стиле «до и после»`,'Один продукт, три образа или сценария за 15 секунд','Реакция на продукт в формате «я не ожидала»'],
+ h:[`Я проверила ${b}, и вот что вышло`,'Не покупай, пока не посмотришь это видео','3 способа использовать это за 15 секунд'],
+ s:['0-3 с: хук крупным планом и текст на экране','3-12 с: основная часть в формате «'+f+'»','12-15 с: результат и призыв сохранить ролик']};save();render()}
+gate();render();
+</script></body></html>
